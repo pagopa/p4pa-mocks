@@ -111,10 +111,10 @@ springBoot {
 
 openApiGenerate {
   generatorName.set("spring")
-  inputSpec.set("$rootDir/openapi/p4pa-mocks.openapi.yaml")
+  inputSpec.set("$rootDir/openapi/anpr.openapi.yaml")
   outputDir.set("$projectDir/build/generated")
-  apiPackage.set("it.gov.pagopa.payhub.controller.generated")
-  modelPackage.set("it.gov.pagopa.payhub.model.generated")
+  apiPackage.set("it.gov.pagopa.payhub.anpr.controller.generated")
+  modelPackage.set("it.gov.pagopa.payhub.anpr.model.generated")
   configOptions.set(mapOf(
     "dateLibrary" to "java8",
     "requestMappingMode" to "api_interface",
@@ -123,6 +123,6 @@ openApiGenerate {
     "useTags" to "true",
     "generateConstructorWithAllArgs" to "false",
     "generatedConstructorWithRequiredArgs" to "false",
-    "additionalModelTypeAnnotations" to "@lombok.Data @lombok.Builder @lombok.AllArgsConstructor @lombok.RequiredArgsConstructor"
+    "additionalModelTypeAnnotations" to "@lombok.Data @lombok.Builder @lombok.AllArgsConstructor"
   ))
 }
