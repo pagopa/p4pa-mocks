@@ -1,13 +1,13 @@
-package it.gov.pagopa.template;
+package it.gov.pagopa.payhub.mocks;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TemplateApplication {
+public class MocksApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TemplateApplication.class, args);
+		SpringApplication.run(MocksApplication.class, args);
 	}
 
 }
