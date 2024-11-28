@@ -1,8 +1,8 @@
 package it.gov.pagopa.payhub.mocks.anpr.service;
 
 import it.gov.pagopa.payhub.anpr.model.generated.*;
+import it.gov.pagopa.payhub.mocks.anpr.model.ClientOperation;
 import org.apache.logging.log4j.util.InternalException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +13,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static it.gov.pagopa.payhub.mocks.anpr.util.Utils.createErrorResponseKO;
-
 @Service
-public class OperationService {
+public class AnprMockServiceImpl implements AnprMockService {
 
-  public ResponseEntity<Object> runOperationC030(RichiestaE002 request) {
+  @Override
+  public ResponseEntity<RispostaE002OK> findUseCase(RichiestaE002 request) {
+    String operationCode = request.getDatiRichiesta().getCasoUso();
+
+    ClientOperation clientOperation = ClientOperation.fromCode(operationCode);
+
+    return switch (clientOperation) {
+      case C030 -> processC030Operation(request);
+      case C003 -> processC003Operation(request);
+    };
+  }
+
+  private ResponseEntity<RispostaE002OK> processC030Operation(RichiestaE002 request) {
     String fiscalCode = request.getCriteriRicerca().getCodiceFiscale();
 
-    if (fiscalCode == null || fiscalCode.isEmpty()) {
-      RispostaKO errorResponse = createErrorResponseKO("Missing or invalid required fiscal code.", request.getDatiRichiesta().getCasoUso());
-      return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+     if (fiscalCode == null || fiscalCode.isEmpty()) {
+      throw new IllegalArgumentException("Missing or invalid required fiscal code. Fiscal code value received: " + request.getCriteriRicerca().getCodiceFiscale());
     }
 
     String idAnpr = generateIdFromCF(fiscalCode);
@@ -34,11 +43,11 @@ public class OperationService {
       .listaAnomalie(new ArrayList<>())
       .build();
 
-    return new ResponseEntity<>(successResponse, HttpStatus.OK);
+    return ResponseEntity.ok(successResponse);
   }
 
-  public ResponseEntity<Object> runOperationC003() {
-    return new ResponseEntity<>("NOT IMPLEMENTED", HttpStatus.NOT_IMPLEMENTED);
+  private ResponseEntity<RispostaE002OK> processC003Operation(RichiestaE002 request) {
+    throw new IllegalArgumentException("Method not implemented for operation code " + request.getDatiRichiesta().getCasoUso());
   }
 
   private String generateIdFromCF(String fiscalCode) {
