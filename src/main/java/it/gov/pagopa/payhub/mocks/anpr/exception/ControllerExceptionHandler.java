@@ -1,4 +1,4 @@
-package it.gov.pagopa.payhub.mocks.exception;
+package it.gov.pagopa.payhub.mocks.anpr.exception;
 
 import it.gov.pagopa.payhub.anpr.model.generated.RispostaKO;
 import it.gov.pagopa.payhub.anpr.model.generated.TipoErroriAnomalia;
