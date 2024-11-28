@@ -1,4 +1,4 @@
-package it.gov.pagopa.payhub.mocks.service;
+package it.gov.pagopa.payhub.mocks.anpr.service;
 
 import it.gov.pagopa.payhub.anpr.model.generated.*;
 import org.apache.logging.log4j.util.InternalException;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static it.gov.pagopa.payhub.mocks.util.Utils.createErrorResponseKO;
+import static it.gov.pagopa.payhub.mocks.anpr.util.Utils.createErrorResponseKO;
 
 @Service
 public class OperationService {

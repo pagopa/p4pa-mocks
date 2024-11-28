@@ -1,14 +1,14 @@
-package it.gov.pagopa.payhub.mocks.controller;
+package it.gov.pagopa.payhub.mocks.anpr.controller;
 
 import it.gov.pagopa.payhub.anpr.model.generated.*;
-import it.gov.pagopa.payhub.mocks.model.ClientOperation;
+import it.gov.pagopa.payhub.mocks.anpr.model.ClientOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import it.gov.pagopa.payhub.mocks.service.OperationService;
+import it.gov.pagopa.payhub.mocks.anpr.service.OperationService;
 
-import static it.gov.pagopa.payhub.mocks.util.Utils.createErrorResponseKO;
+import static it.gov.pagopa.payhub.mocks.anpr.util.Utils.createErrorResponseKO;
 
 @RestController
 @RequestMapping("/anpr-service-e002")

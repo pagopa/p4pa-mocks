@@ -1,9 +1,9 @@
-package it.gov.pagopa.payhub.mocks.model;
+package it.gov.pagopa.payhub.mocks.anpr.model;
 
 import it.gov.pagopa.payhub.anpr.model.generated.RichiestaE002;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;
-import it.gov.pagopa.payhub.mocks.service.OperationService;
+import it.gov.pagopa.payhub.mocks.anpr.service.OperationService;
 
 @Getter
 public enum ClientOperation {

@@ -1,4 +1,4 @@
-package it.gov.pagopa.payhub.mocks.config;
+package it.gov.pagopa.payhub.mocks.anpr.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
