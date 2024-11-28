@@ -34,7 +34,7 @@ public class AnprMockServiceImpl implements AnprMockService {
       throw new IllegalArgumentException("Missing or invalid required fiscal code. Fiscal code value received: " + request.getCriteriRicerca().getCodiceFiscale());
     }
 
-    String idAnpr = generateIdFromCF(fiscalCode);
+    String idAnpr = generateIdAnprFromCF(fiscalCode);
 
     RispostaE002OK successResponse = RispostaE002OK.builder()
       .idOperazioneANPR(request.getDatiRichiesta().getCasoUso())
@@ -49,7 +49,7 @@ public class AnprMockServiceImpl implements AnprMockService {
     throw new IllegalArgumentException("Method not implemented for operation code " + request.getDatiRichiesta().getCasoUso());
   }
 
-  private String generateIdFromCF(String fiscalCode) {
+  private String generateIdAnprFromCF(String fiscalCode) {
     try {
       MessageDigest digest = MessageDigest.getInstance("SHA-256");
       byte[] hashBytes = digest.digest(fiscalCode.getBytes(StandardCharsets.UTF_8));
