@@ -27,7 +27,8 @@ public class AnprServiceController {
 
       return operation.runOperation(request, operationService);
     } catch (IllegalArgumentException ex) {
-      RispostaKO errorResponse = createErrorResponseKO("Operation not supported: ", request.getDatiRichiesta().getCasoUso());
+      String useCase = request.getDatiRichiesta().getCasoUso();
+      RispostaKO errorResponse = createErrorResponseKO("OperationCode not supported: " + useCase, useCase);
 
       return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
