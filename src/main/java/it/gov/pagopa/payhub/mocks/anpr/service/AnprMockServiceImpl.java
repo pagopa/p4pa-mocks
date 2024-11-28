@@ -19,7 +19,6 @@ public class AnprMockServiceImpl implements AnprMockService {
   @Override
   public ResponseEntity<RispostaE002OK> findUseCase(RichiestaE002 request) {
     String operationCode = request.getDatiRichiesta().getCasoUso();
-
     ClientOperation clientOperation = ClientOperation.fromCode(operationCode);
 
     return switch (clientOperation) {

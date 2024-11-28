@@ -18,8 +18,9 @@ public class AnprMockControllerImpl implements AnprMockController {
 
   @Override
   public ResponseEntity<RispostaE002OK> findUseCase(RichiestaE002 request) {
+    log.info("[MOCK_ANPR] Starting find use case with operation code: {}", request.getDatiRichiesta().getCasoUso());
     ResponseEntity<RispostaE002OK> response = anprMockService.findUseCase(request);
-    log.info("[MOCK_ANPR] Returning {}", response);
+    log.info("[MOCK_ANPR] Returning idANPR {}", response.getBody().getIdOperazioneANPR());
     return response;
   }
 }
