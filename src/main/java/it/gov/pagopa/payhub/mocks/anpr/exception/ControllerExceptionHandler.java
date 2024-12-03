@@ -1,7 +1,7 @@
 package it.gov.pagopa.payhub.mocks.anpr.exception;
 
-import it.gov.pagopa.payhub.anpr.model.generated.RispostaKO;
-import it.gov.pagopa.payhub.anpr.model.generated.TipoErroriAnomalia;
+import it.gov.pagopa.payhub.anpr.C030.model.generated.RispostaKO;
+import it.gov.pagopa.payhub.anpr.C030.model.generated.TipoErroriAnomalia;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
