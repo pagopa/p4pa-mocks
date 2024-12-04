@@ -1,10 +1,8 @@
 package it.gov.pagopa.payhub.mocks.anpr.c030.service;
 
-import it.gov.pagopa.payhub.anpr.C030.controller.generated.E002ServiceApi;
 import it.gov.pagopa.payhub.anpr.C030.model.generated.*;
 import org.apache.logging.log4j.util.InternalException;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -13,17 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
-public class AnprC030ServiceImpl implements E002ServiceApi {
+@Service
+public class AnprC030ServiceImpl implements AnprC030Service {
 
-  @Override
-  public ResponseEntity<RispostaE002OK> e002(RichiestaE002 request) {
-    RispostaE002OK response = generateRispostaE002OK(request);
-    return ResponseEntity.ok(response);
+  public RispostaE002OK generateRispostaE002OK(RichiestaE002 request) {
+    validateRequest(request);
+    return buildResponse(request);
   }
 
-  private RispostaE002OK generateRispostaE002OK(RichiestaE002 request) {
-    if (!request.getDatiRichiesta().getCasoUso().equals("C030")) {
+  private void validateRequest(RichiestaE002 request) {
+    if (!"C030".equals(request.getDatiRichiesta().getCasoUso())) {
       throw new IllegalArgumentException("Invalid operation code: " + request.getDatiRichiesta().getCasoUso());
     }
 
@@ -31,7 +28,10 @@ public class AnprC030ServiceImpl implements E002ServiceApi {
     if (fiscalCode == null || fiscalCode.isEmpty()) {
       throw new IllegalArgumentException("Missing or invalid required fiscal code. Fiscal code value received: " + request.getCriteriRicerca().getCodiceFiscale());
     }
+  }
 
+  private RispostaE002OK buildResponse(RichiestaE002 request) {
+    String fiscalCode = request.getCriteriRicerca().getCodiceFiscale();
     String idAnpr = generateIdAnprFromCF(fiscalCode);
 
     return RispostaE002OK.builder()
