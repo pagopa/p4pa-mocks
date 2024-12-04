@@ -1,9 +1,7 @@
-package it.gov.pagopa.payhub.mocks.anpr.service;
+package it.gov.pagopa.payhub.mocks.anpr.c030.service;
 
-import it.gov.pagopa.payhub.anpr.model.generated.*;
-import it.gov.pagopa.payhub.mocks.anpr.model.ClientOperation;
+import it.gov.pagopa.payhub.anpr.C030.model.generated.*;
 import org.apache.logging.log4j.util.InternalException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -14,39 +12,33 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class AnprMockServiceImpl implements AnprMockService {
+public class AnprC030ServiceImpl implements AnprC030Service {
 
-  @Override
-  public ResponseEntity<RispostaE002OK> findUseCase(RichiestaE002 request) {
-    String operationCode = request.getDatiRichiesta().getCasoUso();
-    ClientOperation clientOperation = ClientOperation.fromCode(operationCode);
-
-    return switch (clientOperation) {
-      case C030 -> processC030Operation(request);
-      case C003 -> processC003Operation(request);
-    };
+  public RispostaE002OK generateRispostaE002OK(RichiestaE002 request) {
+    validateRequest(request);
+    return buildResponse(request);
   }
 
-  private ResponseEntity<RispostaE002OK> processC030Operation(RichiestaE002 request) {
-    String fiscalCode = request.getCriteriRicerca().getCodiceFiscale();
-
-     if (fiscalCode == null || fiscalCode.isEmpty()) {
-      throw new IllegalArgumentException("Missing or invalid required fiscal code. Fiscal code value received: " + request.getCriteriRicerca().getCodiceFiscale());
+  private void validateRequest(RichiestaE002 request) {
+    if (!"C030".equals(request.getDatiRichiesta().getCasoUso())) {
+      throw new IllegalArgumentException("Invalid operation code: " + request.getDatiRichiesta().getCasoUso());
     }
 
+    String fiscalCode = request.getCriteriRicerca().getCodiceFiscale();
+    if (fiscalCode == null || fiscalCode.isEmpty()) {
+      throw new IllegalArgumentException("Missing or invalid required fiscal code. Fiscal code value received: " + request.getCriteriRicerca().getCodiceFiscale());
+    }
+  }
+
+  private RispostaE002OK buildResponse(RichiestaE002 request) {
+    String fiscalCode = request.getCriteriRicerca().getCodiceFiscale();
     String idAnpr = generateIdAnprFromCF(fiscalCode);
 
-    RispostaE002OK successResponse = RispostaE002OK.builder()
+    return RispostaE002OK.builder()
       .idOperazioneANPR(request.getDatiRichiesta().getCasoUso())
       .listaSoggetti(buildSubjectList(idAnpr))
       .listaAnomalie(new ArrayList<>())
       .build();
-
-    return ResponseEntity.ok(successResponse);
-  }
-
-  private ResponseEntity<RispostaE002OK> processC003Operation(RichiestaE002 request) {
-    throw new IllegalArgumentException("Method not implemented for operation code " + request.getDatiRichiesta().getCasoUso());
   }
 
   private String generateIdAnprFromCF(String fiscalCode) {

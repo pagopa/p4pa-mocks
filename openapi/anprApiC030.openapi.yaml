@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Consultazione ANPR API C030 e C003
+  title: Consultazione ANPR API C030
   description: |-
     Servizio per la consultazione dell'id univoco nazionale ai fini di un accertamento
     Pattern Model applicati:
