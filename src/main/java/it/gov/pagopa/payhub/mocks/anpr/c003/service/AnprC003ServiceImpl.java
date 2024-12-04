@@ -39,13 +39,32 @@ public class AnprC003ServiceImpl implements AnprC003Service {
   }
 
   private List<TipoInfoSoggettoEnte> generateInfoSubject() {
-    return List.of(new TipoInfoSoggettoEnte(
-      faker.idNumber().valid(),
-      faker.lorem().word(),
-      TipoInfoValore.S,
-      faker.lorem().sentence(),
-      faker.date().birthday().toInstant().toString().substring(0, 10),
-      faker.lorem().paragraph()
-    ));
+    return List.of(
+      new TipoInfoSoggettoEnte(
+        "nome",
+        faker.name().firstName(),
+        TipoInfoValore.S,
+        "Nome del soggetto",
+        faker.date().birthday().toString(),
+        ""
+      ),
+      new TipoInfoSoggettoEnte(
+        "cognome",
+        faker.name().lastName(),
+        TipoInfoValore.S,
+        "Cognome del soggetto",
+        faker.date().birthday().toString(),
+        ""
+      ),
+      new TipoInfoSoggettoEnte(
+        "citta",
+        faker.address().city(),
+        TipoInfoValore.S,
+        "Città di residenza",
+        faker.date().birthday().toString(),
+        ""
+      )
+    );
   }
+
 }
