@@ -43,22 +43,28 @@ public class AnprC003ServiceImpl implements AnprC003Service {
 
   private List<TipoInfoSoggettoEnte> generateInfoSubject() {
     return List.of(
-      createTipoInfoSoggettoEnte("nome", faker.name().firstName(), "Nome del soggetto"),
-      createTipoInfoSoggettoEnte("cognome", faker.name().lastName(), "Cognome del soggetto"),
-      createTipoInfoSoggettoEnte("citta", faker.address().city(), "Città di residenza")
+      createTipoInfoSoggettoEnte("firstName", faker.name().firstName(), "First name of the subject"),
+      createTipoInfoSoggettoEnte("lastName", faker.name().lastName(), "Last name of the subject"),
+      createTipoInfoSoggettoEnte("dateOfBirth", "", "Date of birth of the subject"),
+      createTipoInfoSoggettoEnte("street", faker.address().streetAddress(), "Street address of the subject"),
+      createTipoInfoSoggettoEnte("city", faker.address().city(), "City of residence of the subject"),
+      createTipoInfoSoggettoEnte("postalCode", faker.address().zipCode(), "Postal code of the subject"),
+      createTipoInfoSoggettoEnte("country", faker.address().country(), "Country of residence of the subject")
     );
   }
 
   private TipoInfoSoggettoEnte createTipoInfoSoggettoEnte(String key, String value, String description) {
-    String formattedDate = LocalDate.ofInstant(faker.date().birthday().toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    if ("dateOfBirth".equals(key)) {
+      value = LocalDate.ofInstant(faker.date().birthday().toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
     return new TipoInfoSoggettoEnte(
       key,
       value,
       TipoInfoValore.S,
       description,
-      formattedDate,
+      LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
       ""
     );
   }
-
 }
