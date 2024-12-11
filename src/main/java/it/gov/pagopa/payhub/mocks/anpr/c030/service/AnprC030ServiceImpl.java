@@ -35,7 +35,7 @@ public class AnprC030ServiceImpl implements AnprC030Service {
     String idAnpr = generateIdAnprFromCF(fiscalCode);
 
     return RispostaE002OK.builder()
-      .idOperazioneANPR(request.getDatiRichiesta().getCasoUso())
+      .idOperazioneANPR("030")
       .listaSoggetti(buildSubjectList(idAnpr))
       .listaAnomalie(new ArrayList<>())
       .build();
