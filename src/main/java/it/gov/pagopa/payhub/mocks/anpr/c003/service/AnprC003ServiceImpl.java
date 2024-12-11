@@ -9,14 +9,14 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class AnprC003ServiceImpl implements AnprC003Service {
-  private final Faker faker = new Faker();
 
   public RispostaE002OK generateRispostaE002OK(RichiestaE002 request) {
     validateRequest(request);
-    return buildResponse();
+    return buildResponse(request.getCriteriRicerca().getIdANPR());
   }
 
   private void validateRequest(RichiestaE002 request) {
@@ -30,30 +30,34 @@ public class AnprC003ServiceImpl implements AnprC003Service {
     }
   }
 
-  private RispostaE002OK buildResponse() {
-    List<TipoInfoSoggettoEnte> infoSubjects = generateInfoSubject();
+  private RispostaE002OK buildResponse(String idAnpr) {
+    List<TipoInfoSoggettoEnte> infoSubjects = generateInfoSubject(idAnpr);
     List<TipoDatiSoggettiEnte> subjectList = List.of(new TipoDatiSoggettiEnte(infoSubjects));
 
     return RispostaE002OK.builder()
-      .idOperazioneANPR(faker.idNumber().valid())
+      .idOperazioneANPR("003")
       .listaSoggetti(new TipoListaSoggetti(subjectList))
       .listaAnomalie(new ArrayList<>())
       .build();
   }
 
-  private List<TipoInfoSoggettoEnte> generateInfoSubject() {
+  private List<TipoInfoSoggettoEnte> generateInfoSubject(String idAnpr) {
+    long seed = idAnpr.hashCode();
+    Random random = new Random(seed);
+    Faker faker = new Faker(random);
+
     return List.of(
-      createTipoInfoSoggettoEnte("firstName", faker.name().firstName(), "First name of the subject"),
-      createTipoInfoSoggettoEnte("lastName", faker.name().lastName(), "Last name of the subject"),
-      createTipoInfoSoggettoEnte("dateOfBirth", "", "Date of birth of the subject"),
-      createTipoInfoSoggettoEnte("street", faker.address().streetAddress(), "Street address of the subject"),
-      createTipoInfoSoggettoEnte("city", faker.address().city(), "City of residence of the subject"),
-      createTipoInfoSoggettoEnte("postalCode", faker.address().zipCode(), "Postal code of the subject"),
-      createTipoInfoSoggettoEnte("country", faker.address().country(), "Country of residence of the subject")
+      createTipoInfoSoggettoEnte("firstName", faker.name().firstName(), "First name of the subject", faker),
+      createTipoInfoSoggettoEnte("lastName", faker.name().lastName(), "Last name of the subject", faker),
+      createTipoInfoSoggettoEnte("dateOfBirth", "", "Date of birth of the subject", faker),
+      createTipoInfoSoggettoEnte("street", faker.address().streetAddress(), "Street address of the subject", faker),
+      createTipoInfoSoggettoEnte("city", faker.address().city(), "City of residence of the subject", faker),
+      createTipoInfoSoggettoEnte("postalCode", faker.address().zipCode(), "Postal code of the subject", faker),
+      createTipoInfoSoggettoEnte("country", faker.address().country(), "Country of residence of the subject", faker)
     );
   }
 
-  private TipoInfoSoggettoEnte createTipoInfoSoggettoEnte(String key, String value, String description) {
+  private TipoInfoSoggettoEnte createTipoInfoSoggettoEnte(String key, String value, String description, Faker faker) {
     if ("dateOfBirth".equals(key)) {
       value = LocalDate.ofInstant(faker.date().birthday().toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
