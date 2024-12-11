@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.4
+# syntax=docker/dockerfile:1.4@sha256:9ba7531bd80fb0a858632727cf7a112fbfd19b17e94c4e84ced81e24ef1a0dbc
 
 #
 # 🎯 Version Management
@@ -101,7 +101,7 @@ RUN mkdir -p src/main/java && \
 
 USER ${APP_USER}
 
-RUN gradle openApiGenerate dependencies --no-daemon
+RUN gradle openApiGenerateAnprApiC030 openApiGenerateAnprApiC003 dependencies --no-daemon
 
 #
 # 🏗️ Build Stage

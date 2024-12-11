@@ -10,7 +10,7 @@ plugins {
 
 group = "it.gov.pagopa.payhub"
 version = "0.0.1"
-description = "template-payments-java-repository"
+description = "p4pa-mocks"
 
 java {
 	toolchain {
@@ -37,18 +37,21 @@ val nimbusJoseJwtVersion = "9.47"
 val jjwtVersion = "0.12.6"
 val wiremockVersion = "3.9.2"
 val wiremockSpringBootVersion = "2.1.3"
+val javaFakerVersion = "1.0.2"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
-	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocOpenApiVersion")
 	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 	implementation("org.openapitools:jackson-databind-nullable:$openApiToolsVersion")
 	implementation("com.google.code.findbugs:jsr305:$findbugsVersion")
+  implementation("com.github.javafaker:javafaker:$javaFakerVersion") {
+    exclude(group = "org.yaml", module = "snakeyaml")
+  }
 
-	compileOnly("org.projectlombok:lombok")
+  compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 
 	// validation token jwt
@@ -59,7 +62,6 @@ dependencies {
 
 	//	Testing
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("org.mockito:mockito-core")
 	testImplementation ("org.projectlombok:lombok")
 	testImplementation ("org.wiremock:wiremock-standalone:$wiremockVersion")
@@ -98,7 +100,7 @@ configurations {
 }
 
 tasks.compileJava {
-	dependsOn("openApiGenerate")
+	dependsOn("openApiGenerateAnprApiC030", "openApiGenerateAnprApiC003")
 }
 
 configure<SourceSetContainer> {
@@ -108,15 +110,18 @@ configure<SourceSetContainer> {
 }
 
 springBoot {
-	mainClass.value("it.gov.pagopa.payhub.template.payments.java.repository.PayhubApplication")
+	mainClass.value("it.gov.pagopa.payhub.mocks.MocksApplication")
 }
 
-openApiGenerate {
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateAnprApiC030") {
+  group = "openapi"
+  description = "description"
+
   generatorName.set("spring")
-  inputSpec.set("$rootDir/openapi/template-payments-java-repository.openapi.yaml")
+  inputSpec.set("$rootDir/openapi/anprApiC030.openapi.yaml")
   outputDir.set("$projectDir/build/generated")
-  apiPackage.set("it.gov.pagopa.payhub.controller.generated")
-  modelPackage.set("it.gov.pagopa.payhub.model.generated")
+  apiPackage.set("it.gov.pagopa.payhub.anpr.C030.controller.generated")
+  modelPackage.set("it.gov.pagopa.payhub.anpr.C030.model.generated")
   configOptions.set(mapOf(
     "dateLibrary" to "java8",
     "requestMappingMode" to "api_interface",
@@ -125,6 +130,27 @@ openApiGenerate {
     "useTags" to "true",
     "generateConstructorWithAllArgs" to "false",
     "generatedConstructorWithRequiredArgs" to "false",
-    "additionalModelTypeAnnotations" to "@lombok.Data @lombok.Builder @lombok.AllArgsConstructor @lombok.RequiredArgsConstructor"
+    "additionalModelTypeAnnotations" to "@lombok.Data @lombok.Builder @lombok.AllArgsConstructor"
+  ))
+}
+
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateAnprApiC003") {
+  group = "openapi"
+  description = "description"
+
+  generatorName.set("spring")
+  inputSpec.set("$rootDir/openapi/anprApiC003.openapi.yaml")
+  outputDir.set("$projectDir/build/generated")
+  apiPackage.set("it.gov.pagopa.payhub.anpr.C003.controller.generated")
+  modelPackage.set("it.gov.pagopa.payhub.anpr.C003.model.generated")
+  configOptions.set(mapOf(
+    "dateLibrary" to "java8",
+    "requestMappingMode" to "api_interface",
+    "useSpringBoot3" to "true",
+    "interfaceOnly" to "true",
+    "useTags" to "true",
+    "generateConstructorWithAllArgs" to "false",
+    "generatedConstructorWithRequiredArgs" to "false",
+    "additionalModelTypeAnnotations" to "@lombok.Data @lombok.Builder @lombok.AllArgsConstructor"
   ))
 }
