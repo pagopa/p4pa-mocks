@@ -50,7 +50,7 @@ public class AnprC003ServiceImpl implements AnprC003Service {
       createTipoInfoSoggettoEnte("firstName", faker.name().firstName(), "First name of the subject", faker),
       createTipoInfoSoggettoEnte("lastName", faker.name().lastName(), "Last name of the subject", faker),
       createTipoInfoSoggettoEnte("dateOfBirth", "", "Date of birth of the subject", faker),
-      createTipoInfoSoggettoEnte("street", faker.address().streetAddress(), "Street address of the subject", faker),
+      createTipoInfoSoggettoEnte("street", faker.address().streetName(), "Street address of the subject", faker),
       createTipoInfoSoggettoEnte("city", "Roma", "City of residence of the subject", faker),
       createTipoInfoSoggettoEnte("postalCode", "00100", "Postal code of the subject", faker),
       createTipoInfoSoggettoEnte("country", "Italia", "Country of residence of the subject", faker)
