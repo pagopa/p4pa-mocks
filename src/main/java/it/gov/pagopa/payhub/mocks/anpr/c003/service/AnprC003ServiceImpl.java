@@ -5,7 +5,6 @@ import it.gov.pagopa.payhub.anpr.C003.model.generated.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class AnprC003ServiceImpl implements AnprC003Service {
 
   private TipoInfoSoggettoEnte createTipoInfoSoggettoEnte(String key, String value, String description, Faker faker) {
     if ("dateOfBirth".equals(key)) {
-      value = LocalDate.ofInstant(faker.date().birthday().toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+      value = LocalDate.of(1970, 1, 1).plusDays(faker.random().nextInt(0, 65*365)).format(DateTimeFormatter.ISO_DATE);
     }
 
     return new TipoInfoSoggettoEnte(
