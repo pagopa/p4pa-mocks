@@ -1,7 +1,8 @@
-package it.gov.pagopa.payhub.mocks.anpr.exception;
+package it.gov.pagopa.payhub.mocks.exception;
 
 import it.gov.pagopa.payhub.anpr.C030.model.generated.RispostaKO;
 import it.gov.pagopa.payhub.anpr.C030.model.generated.TipoErroriAnomalia;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,10 +11,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 
 @RestControllerAdvice
+@Slf4j
 public class ControllerExceptionHandler {
 
   @ExceptionHandler(IllegalArgumentException.class)
   public ResponseEntity<RispostaKO> handleIllegalArgumentException(IllegalArgumentException ex) {
+    log.info("IllegalArgumentException: ", ex);
+
     RispostaKO response = RispostaKO.builder()
       .idOperazioneANPR("UNKNOWN")
       .listaErrori(List.of(TipoErroriAnomalia.builder()
@@ -26,6 +30,8 @@ public class ControllerExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<RispostaKO> handleGeneralException(Exception ex) {
+    log.error("Exception: ", ex);
+
     RispostaKO response = RispostaKO.builder()
       .idOperazioneANPR("UNKNOWN")
       .listaErrori(List.of(TipoErroriAnomalia.builder()
