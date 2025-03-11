@@ -4,6 +4,10 @@ spring:
       version: ${version}
     jmx.enabled: true
 management:
+    info:
+      build.enabled: true
+      java.enabled: true
+      git.enabled: true
     endpoint:
       health:
         probes.enabled: true
@@ -15,4 +19,3 @@ management:
         exposure.include: "*"
       web:
         exposure.include: info, health
-app:
