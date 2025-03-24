@@ -44,6 +44,7 @@ variables:
     containerRegistry: '$(UAT_CONTAINER_REGISTRY_NAME)'
     selfHostedAgentPool: $(UAT_AGENT_POOL)
     postmanEnvFile: p4pa_UAT.postman_environment.json
+    workload_identity_client_id: '$(UAT_WORKLOAD_IDENTITY_CLIENT_ID)'
 
   ${{ elseif eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
     environment: 'PROD'
@@ -52,6 +53,7 @@ variables:
     kubernetesServiceConnection: '$(PROD_KUBERNETES_SERVICE_CONN)'
     containerRegistry: '$(PROD_CONTAINER_REGISTRY_NAME)'
     selfHostedAgentPool: $(PROD_AGENT_POOL)
+    workload_identity_client_id: '$(PROD_WORKLOAD_IDENTITY_CLIENT_ID)'
 
   ${{ else }}:
     environment: 'DEV'
@@ -61,6 +63,7 @@ variables:
     containerRegistry: '$(DEV_CONTAINER_REGISTRY_NAME)'
     selfHostedAgentPool: $(DEV_AGENT_POOL)
     postmanEnvFile: p4pa_DEV.postman_environment.json
+    workload_identity_client_id: '$(DEV_WORKLOAD_IDENTITY_CLIENT_ID)'
 
 stages:
   - stage: stage_build
@@ -169,6 +172,7 @@ stages:
                     waitForExecution: true
                     arguments: --timeout 5m0s
                       --values buildMetadata.yaml
+                      --set microservice-chart.azure.workloadIdentityClientId=${{ variables.workload_identity_client_id }}
                 - task: 'Bash@3'
                   displayName: 'Send message on Slack'
                   condition: in(variables['Agent.JobStatus'], 'SucceededWithIssues', 'Failed')
