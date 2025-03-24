@@ -34,7 +34,10 @@ microservice-chart:
   serviceAccount:
     create: false
     annotations: {}
-    name: ""
+    name: payhub-workload-identity
+
+  azure:
+    workloadIdentityClientId: qwerty123-a1aa-1234-xyza-qwerty123
 
   podAnnotations: {}
 
