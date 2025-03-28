@@ -104,6 +104,17 @@ tasks.compileJava {
   dependsOn("openApiGenerateAnprApiC030", "openApiGenerateAnprApiC003")
 }
 
+tasks.register("dependenciesBuild") {
+  group = "AutomaticallyGeneratedCode"
+  description = "grouping all together automatically generate code tasks"
+
+  dependsOn(
+    "openApiGenerateAnprApiC030",
+    "openApiGenerateAnprApiC003"
+
+  )
+}
+
 configure<SourceSetContainer> {
   named("main") {
     java.srcDir("$projectDir/build/generated/src/main/java")
