@@ -5,7 +5,6 @@ import it.gov.pagopa.payhub.anpr.C003.model.generated.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,16 +49,16 @@ public class AnprC003ServiceImpl implements AnprC003Service {
       createTipoInfoSoggettoEnte("firstName", faker.name().firstName(), "First name of the subject", faker),
       createTipoInfoSoggettoEnte("lastName", faker.name().lastName(), "Last name of the subject", faker),
       createTipoInfoSoggettoEnte("dateOfBirth", "", "Date of birth of the subject", faker),
-      createTipoInfoSoggettoEnte("street", faker.address().streetAddress(), "Street address of the subject", faker),
-      createTipoInfoSoggettoEnte("city", faker.address().city(), "City of residence of the subject", faker),
-      createTipoInfoSoggettoEnte("postalCode", faker.address().zipCode(), "Postal code of the subject", faker),
-      createTipoInfoSoggettoEnte("country", faker.address().country(), "Country of residence of the subject", faker)
+      createTipoInfoSoggettoEnte("street", faker.address().streetName(), "Street address of the subject", faker),
+      createTipoInfoSoggettoEnte("city", "Roma", "City of residence of the subject", faker),
+      createTipoInfoSoggettoEnte("postalCode", "00100", "Postal code of the subject", faker),
+      createTipoInfoSoggettoEnte("country", "Italia", "Country of residence of the subject", faker)
     );
   }
 
   private TipoInfoSoggettoEnte createTipoInfoSoggettoEnte(String key, String value, String description, Faker faker) {
     if ("dateOfBirth".equals(key)) {
-      value = LocalDate.ofInstant(faker.date().birthday().toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+      value = LocalDate.of(1970, 1, 1).plusDays(faker.random().nextInt(0, 65*365)).format(DateTimeFormatter.ISO_DATE);
     }
 
     return new TipoInfoSoggettoEnte(
