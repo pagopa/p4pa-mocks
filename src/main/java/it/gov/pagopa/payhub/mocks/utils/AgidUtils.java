@@ -1,27 +1,22 @@
 package it.gov.pagopa.payhub.mocks.utils;
 
 import com.auth0.jwt.JWT;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Map;
-import java.util.Objects;
 
 public class AgidUtils {
   private AgidUtils(){}
 
   public static void checkAgidMetadata(){
-    ServletRequestAttributes requestAttributes = (ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes());
-    ContentCachingRequestWrapper request = (ContentCachingRequestWrapper)requestAttributes.getRequest();
+    ContentCachingRequestWrapper request = Utils.getServletRequest();
 
-    checkMandatoryHeader(request, "Agid-JWT-TrackingEvidence");
-    String agidSignature = checkMandatoryHeader(request, "Agid-JWT-Signature");
-    String expectedDigest = checkMandatoryHeader(request, "Digest");
+    Utils.checkMandatoryHeader(request, "Agid-JWT-TrackingEvidence");
+    String agidSignature = Utils.checkMandatoryHeader(request, "Agid-JWT-Signature");
+    String expectedDigest = Utils.checkMandatoryHeader(request, "Digest");
 
     try {
       String digest = "SHA-256="+ Base64.getEncoder().encodeToString(MessageDigest.getInstance("SHA256").digest(request.getContentAsByteArray()));
@@ -39,8 +34,4 @@ public class AgidUtils {
     }
   }
 
-  private static String checkMandatoryHeader(HttpServletRequest request, String headerName) {
-    return Objects.requireNonNull(request.getHeader(headerName),
-      () -> {throw new IllegalArgumentException("Mandatory header not provided: " + headerName);});
-  }
 }

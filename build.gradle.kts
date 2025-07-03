@@ -101,7 +101,7 @@ configurations {
 }
 
 tasks.compileJava {
-  dependsOn("openApiGenerateAnprApiC030", "openApiGenerateAnprApiC003")
+  dependsOn("dependenciesBuild")
 }
 
 tasks.register("dependenciesBuild") {
@@ -110,8 +110,9 @@ tasks.register("dependenciesBuild") {
 
   dependsOn(
     "openApiGenerateAnprApiC030",
-    "openApiGenerateAnprApiC003"
-
+    "openApiGenerateAnprApiC003",
+    "openApiGenerateSilLegacyActualization",
+    "openApiGenerateSilLegacyNotification"
   )
 }
 
@@ -131,7 +132,7 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("ope
   description = "description"
 
   generatorName.set("spring")
-  inputSpec.set("$rootDir/openapi/anprApiC030.openapi.yaml")
+  inputSpec.set("$rootDir/openapi/anpr/anprApiC030.openapi.yaml")
   outputDir.set("$projectDir/build/generated")
   apiPackage.set("it.gov.pagopa.payhub.anpr.C030.controller.generated")
   modelPackage.set("it.gov.pagopa.payhub.anpr.C030.model.generated")
@@ -152,10 +153,52 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("ope
   description = "description"
 
   generatorName.set("spring")
-  inputSpec.set("$rootDir/openapi/anprApiC003.openapi.yaml")
+  inputSpec.set("$rootDir/openapi/anpr/anprApiC003.openapi.yaml")
   outputDir.set("$projectDir/build/generated")
   apiPackage.set("it.gov.pagopa.payhub.anpr.C003.controller.generated")
   modelPackage.set("it.gov.pagopa.payhub.anpr.C003.model.generated")
+  configOptions.set(mapOf(
+    "dateLibrary" to "java8",
+    "requestMappingMode" to "api_interface",
+    "useSpringBoot3" to "true",
+    "interfaceOnly" to "true",
+    "useTags" to "true",
+    "generateConstructorWithAllArgs" to "false",
+    "generatedConstructorWithRequiredArgs" to "false",
+    "additionalModelTypeAnnotations" to "@lombok.Data @lombok.Builder @lombok.AllArgsConstructor"
+  ))
+}
+
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateSilLegacyActualization") {
+  group = "openapi"
+  description = "description"
+
+  generatorName.set("spring")
+  inputSpec.set("$rootDir/openapi/sil/amount-updates-legacy.yaml")
+  outputDir.set("$projectDir/build/generated")
+  apiPackage.set("it.gov.pagopa.payhub.sil.actualization.controller.legacy.generated")
+  modelPackage.set("it.gov.pagopa.payhub.sil.actualization.model.legacy.generated")
+  configOptions.set(mapOf(
+    "dateLibrary" to "java8",
+    "requestMappingMode" to "api_interface",
+    "useSpringBoot3" to "true",
+    "interfaceOnly" to "true",
+    "useTags" to "true",
+    "generateConstructorWithAllArgs" to "false",
+    "generatedConstructorWithRequiredArgs" to "false",
+    "additionalModelTypeAnnotations" to "@lombok.Data @lombok.Builder @lombok.AllArgsConstructor"
+  ))
+}
+
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateSilLegacyNotification") {
+  group = "openapi"
+  description = "description"
+
+  generatorName.set("spring")
+  inputSpec.set("$rootDir/openapi/sil/payment-notification-legacy.yaml")
+  outputDir.set("$projectDir/build/generated")
+  apiPackage.set("it.gov.pagopa.payhub.sil.notification.controller.legacy.generated")
+  modelPackage.set("it.gov.pagopa.payhub.sil.notification.model.legacy.generated")
   configOptions.set(mapOf(
     "dateLibrary" to "java8",
     "requestMappingMode" to "api_interface",

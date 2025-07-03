@@ -1,5 +1,6 @@
 package it.gov.pagopa.payhub.mocks.anpr.c003.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import it.gov.pagopa.payhub.anpr.C003.controller.generated.E002ServiceApi;
 import it.gov.pagopa.payhub.anpr.C003.model.generated.RichiestaE002;
 import it.gov.pagopa.payhub.anpr.C003.model.generated.RispostaE002OK;
@@ -8,6 +9,7 @@ import it.gov.pagopa.payhub.mocks.utils.AgidUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "ANPR - C003")
 @RestController
 public class AnprC003Controller implements E002ServiceApi {
 

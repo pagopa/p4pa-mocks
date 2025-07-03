@@ -19,3 +19,16 @@ management:
         exposure.include: "*"
       web:
         exposure.include: info, health
+
+sil:
+  notification:
+    legacy:
+      secret: "\${SIL_LEGACY_JWT_SECRET:bGVnYWN5Snd0IHNlY3JldA==}" # "legacyJwt secret"
+      kid: "\${SIL_LEGACY_JWT_KID:kid}"
+      subject: "\${SIL_LEGACY_JWT_SUBJECT:mocked-sil}"
+      issuer: "\${SIL_LEGACY_JWT_ISSUER:piattaforma-unitaria}"
+  actualization:
+    legacy:
+      auth:
+        secret: "\${SIL_LEGACY_BASIC_TOKEN_SECRET:bGVnYWN5QmFzaWMgc2VjcmV0}" # "legacyBasic secret"
+        expire-minutes: "\${SIL_LEGACY_BASIC_TOKEN_EXPIRATION_MINUTES:10}"

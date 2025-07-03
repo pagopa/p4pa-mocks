@@ -1,4 +1,4 @@
-package it.gov.pagopa.payhub.mocks.exception;
+package it.gov.pagopa.payhub.mocks.anpr.exception;
 
 import it.gov.pagopa.payhub.anpr.C030.model.generated.RispostaKO;
 import it.gov.pagopa.payhub.anpr.C030.model.generated.TipoErroriAnomalia;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "it.gov.pagopa.payhub.mocks.anpr")
 @Slf4j
-public class ControllerExceptionHandler {
+public class AnprControllerExceptionHandler {
 
   @ExceptionHandler(IllegalArgumentException.class)
   public ResponseEntity<RispostaKO> handleIllegalArgumentException(IllegalArgumentException ex) {
