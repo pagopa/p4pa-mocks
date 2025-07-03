@@ -24,7 +24,10 @@ This repository contains the mock implementations of the services required for t
     * It will expire after the minutes configured through the [application.yml](src/main/resources/application.yml) property `sil.actualization.legacy.auth.expire-minutes`.
   * `attualizzazione`
     * It will require a bearer token obtained through the `login` API;
-    * 
+    * It will always return a response except when the NAV contains:
+      * `SILPAID`: it will return error 004 (already paid)
+      * `SILNODT`: it will return error 003 (notification date not available)
+    * Pseudo-randomly, it will return also a (single) balance
 
 ## 📂 Repository Structure
 
