@@ -5,15 +5,13 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import it.gov.pagopa.payhub.mocks.utils.Utils;
 import it.gov.pagopa.payhub.sil.notification.controller.legacy.generated.DefaultApi;
 import it.gov.pagopa.payhub.sil.notification.model.legacy.generated.PaymentNotification;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +19,7 @@ import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Random;
 
+@Tag(name = "SIL - Legacy payment notification")
 @RestController
 public class SilLegacyNotificationControllerImpl implements DefaultApi {
 
@@ -48,26 +47,6 @@ public class SilLegacyNotificationControllerImpl implements DefaultApi {
     this.kid = kid;
     this.subject = subject;
     this.issuer = issuer;
-  }
-
-  @ExceptionHandler(IllegalStateException.class)
-  public ResponseEntity<String> handleIllegalStateException(IllegalStateException e){
-    return ResponseEntity.internalServerError().body(e.getMessage());
-  }
-
-  @ExceptionHandler(IllegalArgumentException.class)
-  public ResponseEntity<String> handleMissingToken(IllegalArgumentException e){
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"faultCode\": \"UNAUTHORIZED\", \"faultDescription\": \"Missing Bearer token\"}");
-  }
-
-  @ExceptionHandler(TokenExpiredException.class)
-  public ResponseEntity<String> handleAuthError(TokenExpiredException e){
-    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("{\"faultCode\": \"FORBIDDEN\", \"faultDescription\": \"Expired token\"}");
-  }
-
-  @ExceptionHandler(JWTVerificationException.class)
-  public ResponseEntity<String> handleAuthError(JWTVerificationException e){
-    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("{\"faultCode\": \"FORBIDDEN\", \"faultDescription\": \"Invalid token\"}");
   }
 
   @GetMapping("/token")
