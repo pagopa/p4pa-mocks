@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.SecureRandom;
 import java.time.Instant;
+import java.util.Base64;
 import java.util.Random;
 
 @Tag(name = "SIL - Legacy payment notification")
@@ -38,7 +39,7 @@ public class SilLegacyNotificationControllerImpl implements DefaultApi {
     @Value("${sil.notification.legacy.subject}") String subject,
     @Value("${sil.notification.legacy.issuer}") String issuer
   ){
-    this.algorithm = Algorithm.HMAC512(jwtSecret);
+    this.algorithm = Algorithm.HMAC512(Base64.getDecoder().decode(jwtSecret));
     this.jwtVerifier = JWT
       .require(algorithm)
       .withSubject(subject)
