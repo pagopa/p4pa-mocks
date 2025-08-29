@@ -2,7 +2,7 @@ import java.util.Objects
 
 plugins {
   java
-  id("org.springframework.boot") version "3.5.3"
+  id("org.springframework.boot") version "3.5.5"
   id("io.spring.dependency-management") version "1.1.7"
   jacoco
   id("org.sonarqube") version "6.2.0.5505"
@@ -53,14 +53,14 @@ dependencies {
   }
   implementation ("org.apache.httpcomponents.client5:httpclient5:${httpClientVersion}")
 
-  compileOnly("org.projectlombok:lombok")
-  annotationProcessor("org.projectlombok:lombok")
-
   // validation token jwt
   implementation("com.auth0:java-jwt:$javaJwtVersion")
   implementation("com.auth0:jwks-rsa:$jwksRsaVersion")
   implementation("com.nimbusds:nimbus-jose-jwt:$nimbusJoseJwtVersion")
   implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
+
+  compileOnly("org.projectlombok:lombok")
+  annotationProcessor("org.projectlombok:lombok")
 
   //	Testing
   testImplementation("org.springframework.boot:spring-boot-starter-test")
