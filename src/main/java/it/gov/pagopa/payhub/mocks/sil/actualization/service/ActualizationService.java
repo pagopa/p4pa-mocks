@@ -50,7 +50,7 @@ public class ActualizationService {
     OffsetDateTime now = OffsetDateTime.now();
     return RispostaSpeseNotificaDto.builder()
       .numeroAvviso(nav)
-      .iun(UUID.nameUUIDFromBytes(nav.getBytes(StandardCharsets.UTF_8)).toString())
+      .iun(UUID.nameUUIDFromBytes(nav.getBytes(StandardCharsets.UTF_8)).toString().substring(0,25))
       .speseNotifica(notificationFeeCents)
       .importoPosizione(amountUpdatedCents + notificationFeeCents)
       .bilancio(bilancio)
