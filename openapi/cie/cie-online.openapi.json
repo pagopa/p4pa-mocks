@@ -1,0 +1,145 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API documentation for managing payment details",
+    "description": "Documentazione delle API a supporto dei pagamenti",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://cieonlinems/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "payments",
+      "description": "Api documentation drafted by IPZS"
+    }
+  ],
+  "paths": {
+    "/api/rest/procedures/v1/paymentData/{issuerFiscalCode}": {
+      "get": {
+        "tags": [
+          "payments"
+        ],
+        "summary": "Determinazione della quota del Comune emettitore",
+        "description": "In fase di generazione del pagamento spontaneo, il \"Sistema di creazione della posizione debitoria CIE\" interroga il servizio esposto dal CieOnLine fornendo i seguenti dati: -  codice fiscale  del Comune di emissione; -  codice causale della richiesta (funzionale alla determinazione dei diritti fissi e di segreteria). Il servizio restituisce: -  l'importo (in centesimi) dei diritti fissi e di segreteria; -  il codice IBAN censito per il Comune di emissione specificato; -  codice autorizzativo; -  conto corrente postale. ",
+        "operationId": "getFees",
+        "parameters": [
+          {
+            "name": "issuerFiscalCode",
+            "in": "path",
+            "description": "Codice fiscale del comune emettitore",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "releaseCodeReason",
+            "in": "query",
+            "description": "Codice Causale emissione",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid issuerFiscalCode/releaseCodeReason supplied"
+          },
+          "404": {
+            "description": "fees not found"
+          }
+        }
+      }
+    },
+    "/api/rest/municipalities/v1/fiscalCode": {
+      "get": {
+        "tags": [
+          "payments"
+        ],
+        "summary": "Lista Comuni e CF",
+        "description": "Il servizio mette a disposizione la lista aggiornata dei Comuni aderenti e le relative informazioni, tra le quali il CF.",
+        "operationId": "getIssuerFC",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "description": "Array annidato: [0] name (String), [1] provinceAcronym (String), [2] fiscalCode (string).",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "ROMA",
+                      "RM",
+                      "02438750586"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PaymentResponse": {
+        "type": "object",
+        "properties": {
+          "fixedFee": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "secretarialFee": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "issuerIban": {
+            "type": "string"
+          },
+          "postalAccount": {
+            "type": "string"
+          },
+          "authorizationCode": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
