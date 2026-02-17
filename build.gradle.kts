@@ -262,4 +262,5 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("ope
     "generatedConstructorWithRequiredArgs" to "false",
     "additionalModelTypeAnnotations" to "@lombok.Data @lombok.Builder @lombok.AllArgsConstructor"
   ))
+  modelNamePrefix.set("Cie")
 }
