@@ -16,7 +16,7 @@ public class CiePaymentsServiceImpl implements CiePaymentsService {
     return CiePaymentResponse.builder()
       .fixedFee(random.nextInt(1,10_00))
       .secretarialFee(random.nextInt(1,10_00))
-      .issuerIban(faker.finance().iban())
+      .issuerIban(faker.finance().iban("IT").toUpperCase())
       .postalAccount(faker.number().digits(8))
       .authorizationCode(faker.regexify("[A-Z0-9]{10}"))
       .build();
