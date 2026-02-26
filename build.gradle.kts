@@ -1,4 +1,4 @@
-import java.util.Objects
+import java.util.*
 
 plugins {
   java
@@ -112,7 +112,8 @@ tasks.register("dependenciesBuild") {
     "openApiGenerateAnprApiC003",
     "openApiGenerateSilLegacyActualization",
     "openApiGenerateSilLegacyNotification",
-    "openApiGenerateP4PAAUTH"
+    "openApiGenerateP4PAAUTH",
+    "openApiGenerateCIEONLINE"
   )
 }
 
@@ -240,4 +241,26 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("ope
     "generatedConstructorWithRequiredArgs" to "false",
     "additionalModelTypeAnnotations" to "@lombok.Data @lombok.Builder @lombok.AllArgsConstructor"
   ))
+}
+
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateCIEONLINE") {
+  group = "openapi"
+  description = "description"
+
+  generatorName.set("spring")
+  inputSpec.set("$rootDir/openapi/cie/cie-online.openapi.json")
+  outputDir.set("$projectDir/build/generated")
+  apiPackage.set("it.gov.pagopa.payhub.cie.controller.generated")
+  modelPackage.set("it.gov.pagopa.payhub.cie.model.generated")
+  configOptions.set(mapOf(
+    "dateLibrary" to "java8",
+    "requestMappingMode" to "api_interface",
+    "useSpringBoot3" to "true",
+    "interfaceOnly" to "true",
+    "useTags" to "true",
+    "generateConstructorWithAllArgs" to "false",
+    "generatedConstructorWithRequiredArgs" to "false",
+    "additionalModelTypeAnnotations" to "@lombok.Data @lombok.Builder @lombok.AllArgsConstructor"
+  ))
+  modelNamePrefix.set("Cie")
 }
