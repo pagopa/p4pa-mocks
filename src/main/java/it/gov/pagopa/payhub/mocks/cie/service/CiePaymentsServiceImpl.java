@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import it.gov.pagopa.payhub.cie.model.generated.CiePaymentResponse;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -20,5 +21,14 @@ public class CiePaymentsServiceImpl implements CiePaymentsService {
       .postalAccount(faker.number().digits(8))
       .authorizationCode(faker.regexify("[A-Z0-9]{10}"))
       .build();
+  }
+
+  public List<List<String>> getIssuerFC() {
+    return List.of(
+      List.of("Ente P4PA intermediato 2", "BG", "99999999982"),
+      List.of("Comune di Brescia", "BS", "00761890177"),
+      List.of("Comune di Milano", "MI", "01199250158"),
+      List.of("Comune di Test", "TS", "11111111111")
+    );
   }
 }
