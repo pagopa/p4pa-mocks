@@ -42,7 +42,8 @@ This repository contains the mock implementations of the services required for t
 ### Mock Configuration APIs
 * [mock-configuration.openapi.yaml](openapi/mock-configuration/mock-configuration.openapi.yaml)
   * `includeCieTestOrganization`
-    * This API allows for dynamic configuration of the CIE mock behavior at runtime.
+    * This API allows for dynamic configuration of the list returned by `getIssuerFC`.
+    * It enables or disables the inclusion of the "Comune di Test" (CF: `11111111111`) at runtime.
    
 ## 📂 Repository Structure
 
