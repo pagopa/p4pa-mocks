@@ -4,9 +4,11 @@ import com.github.javafaker.Faker;
 import it.gov.pagopa.payhub.cie.model.generated.CiePaymentResponse;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class CiePaymentsServiceImpl implements CiePaymentsService {
@@ -38,11 +40,18 @@ public class CiePaymentsServiceImpl implements CiePaymentsService {
   }
 
   public List<List<String>> getIssuerFC() {
-    return List.of(
+    List<List<String>> issuers = new ArrayList<>(List.of(
       List.of("Ente P4PA intermediato 2", "BG", CF_INTERMEDIATO2),
       List.of("Comune di Brescia", "BS", CF_BRESCIA),
-      List.of("Comune di Milano", "MI", CF_MILANO),
-      List.of("Comune di Test", "TS", "11111111111")
-    );
+      List.of("Comune di Milano", "MI", CF_MILANO)
+    ));
+
+    int randomValue = ThreadLocalRandom.current().nextInt(100);
+
+    if (randomValue % 2 == 0) {
+      issuers.add(List.of("Comune di Test", "TS", "11111111111"));
+    }
+
+    return issuers;
   }
 }
