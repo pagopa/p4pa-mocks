@@ -4,8 +4,10 @@ This repository contains the mock implementations of the services required for t
 
 ## Mocks
 
-### ANPR
+### Mock Configuration
+* [mock-configuration.openapi.yaml](openapi/mock-configuration/mock-configuration.openapi.yaml)
 
+### ANPR
 * [anprApiC003.openapi.yaml](openapi/anpr/anprApiC003.openapi.yaml)
 * [anprApiC030.openapi.yaml](openapi/anpr/anprApiC030.openapi.yaml)
 
@@ -39,8 +41,7 @@ This repository contains the mock implementations of the services required for t
       * Comune di Milano (MI)
     * It **dynamically includes** the "Comune di Test" (TS - `11111111111`) based on the configuration set via the `includeCieTestOrganization` API.
 
-### Mock Configuration APIs
-* [mock-configuration.openapi.yaml](openapi/mock-configuration/mock-configuration.openapi.yaml)
+####  CIE Mock Configuration
   * `includeCieTestOrganization`
     * This API allows for dynamic configuration of the list returned by `getIssuerFC`.
     * It enables or disables the inclusion of the "Comune di Test" (CF: `11111111111`) at runtime.
