@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class CiePaymentsServiceImpl implements CiePaymentsService {
+  private boolean includeTestIssuer = true;
 
   private static final String CF_MILANO = "01199250158";
   private static final String CF_BRESCIA = "00761890177";
@@ -46,12 +46,15 @@ public class CiePaymentsServiceImpl implements CiePaymentsService {
       List.of("Comune di Milano", "MI", CF_MILANO)
     ));
 
-    int randomValue = ThreadLocalRandom.current().nextInt(100);
-
-    if (randomValue % 2 == 0) {
+    if (this.includeTestIssuer) {
       issuers.add(List.of("Comune di Test", "TS", "11111111111"));
     }
 
     return issuers;
+  }
+
+  @Override
+  public void setIncludeTestIssuer(boolean includeTestIssuer) {
+    this.includeTestIssuer = includeTestIssuer;
   }
 }

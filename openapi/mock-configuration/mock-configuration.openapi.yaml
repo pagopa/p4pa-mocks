@@ -1,0 +1,24 @@
+openapi: 3.0.3
+info:
+  title: Mock configuration api
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  "/config/cie/test-issuer":
+    post:
+      tags:
+        - Mock Configuration
+      operationId: setIncludeTestIssuer
+      parameters:
+        - name: include
+          in: query
+          required: true
+          schema:
+            type: boolean
+            default: true
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Invalid request
