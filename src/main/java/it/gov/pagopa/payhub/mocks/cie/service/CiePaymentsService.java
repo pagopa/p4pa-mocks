@@ -7,5 +7,5 @@ import java.util.List;
 public interface CiePaymentsService {
   CiePaymentResponse getFees(String issuerFiscalCode, String releaseCodeReason);
   List<List<String>> getIssuerFC();
-  public void setIncludeTestIssuer(boolean includeTestIssuer);
+  void setIncludeTestIssuer(boolean includeTestIssuer);
 }
