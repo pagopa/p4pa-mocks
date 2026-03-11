@@ -113,7 +113,8 @@ tasks.register("dependenciesBuild") {
     "openApiGenerateSilLegacyActualization",
     "openApiGenerateSilLegacyNotification",
     "openApiGenerateP4PAAUTH",
-    "openApiGenerateCIEONLINE"
+    "openApiGenerateCIEONLINE",
+    "openApiGenerateMockConfiguration"
   )
 }
 
@@ -263,4 +264,25 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("ope
     "additionalModelTypeAnnotations" to "@lombok.Data @lombok.Builder @lombok.AllArgsConstructor"
   ))
   modelNamePrefix.set("Cie")
+}
+
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateMockConfiguration") {
+  group = "openapi"
+  description = "description"
+
+  generatorName.set("spring")
+  inputSpec.set("$rootDir/openapi/mock-configuration/mock-configuration.openapi.yaml")
+  outputDir.set("$projectDir/build/generated")
+  apiPackage.set("it.gov.pagopa.payhub.mockconfiguration.controller.generated")
+  modelPackage.set("it.gov.pagopa.payhub.mockconfiguration.model.generated")
+  configOptions.set(mapOf(
+    "dateLibrary" to "java8",
+    "requestMappingMode" to "api_interface",
+    "useSpringBoot3" to "true",
+    "interfaceOnly" to "true",
+    "useTags" to "true",
+    "generateConstructorWithAllArgs" to "false",
+    "generatedConstructorWithRequiredArgs" to "false",
+    "additionalModelTypeAnnotations" to "@lombok.Data @lombok.Builder @lombok.AllArgsConstructor"
+  ))
 }

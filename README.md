@@ -4,8 +4,10 @@ This repository contains the mock implementations of the services required for t
 
 ## Mocks
 
-### ANPR
+### Mock Configuration
+* [mock-configuration.openapi.yaml](openapi/mock-configuration/mock-configuration.openapi.yaml)
 
+### ANPR
 * [anprApiC003.openapi.yaml](openapi/anpr/anprApiC003.openapi.yaml)
 * [anprApiC030.openapi.yaml](openapi/anpr/anprApiC030.openapi.yaml)
 
@@ -29,6 +31,21 @@ This repository contains the mock implementations of the services required for t
       * `SILNODT`: it will return error 003 (notification date not available)
     * Pseudo-randomly, it will return also a (single) balance
 
+### CIE
+* [cie-online.openapi.json](openapi/cie/cie-online.openapi.json)
+  * `getIssuerFC`
+    * Returns a list of available issuers, each including its name, province code, and Fiscal Code.
+    * The list contains a set of **static pre-defined issuers**:
+      * Ente P4PA intermediato 2 (BG)
+      * Comune di Brescia (BS)
+      * Comune di Milano (MI)
+    * It **dynamically includes** the "Comune di Test" (TS - `11111111111`) based on the configuration set via the `includeCieTestOrganization` API.
+
+####  CIE Mock Configuration
+  * `includeCieTestOrganization`
+    * This API allows for dynamic configuration of the list returned by `getIssuerFC`.
+    * It enables or disables the inclusion of the "Comune di Test" (CF: `11111111111`) at runtime.
+   
 ## 📂 Repository Structure
 
 Here is a quick overview of the files and directories included in this repository:
