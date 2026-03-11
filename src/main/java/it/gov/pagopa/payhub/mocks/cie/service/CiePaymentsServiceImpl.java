@@ -34,7 +34,7 @@ public class CiePaymentsServiceImpl implements CiePaymentsService {
     return switch (issuerFiscalCode) {
       case CF_INTERMEDIATO2 -> "IT39X0300203280451585346538";
       case CF_MILANO -> "IT49W0760101600000014922207";
-      case CF_BRESCIA -> "IT08Y0760111200000019544998";
+      case CF_BRESCIA -> "IT82T0350011210000000064777";
       default -> faker.finance().iban("IT").toUpperCase();
     };
   }
