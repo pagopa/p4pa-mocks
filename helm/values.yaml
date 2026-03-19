@@ -30,12 +30,6 @@ microservice-chart:
   ingress:
     create: true
     path: /p4pamocks/(.*)
-    forceSslRedirect: false
-    annotations:
-      nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true"
-      nginx.ingress.kubernetes.io/auth-tls-secret: "aks-outbound-certificate-pub-key"
-      nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
-      nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
 
   serviceAccount:
     create: false
