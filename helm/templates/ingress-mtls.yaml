@@ -18,7 +18,7 @@ spec:
         paths:
           - backend:
               service:
-                name: p4pa-mocks
+                name: p4pa-mocks-microservice-chart
                 port:
                   number: {{ index .Values "microservice-chart" "ingress" "servicePort" | default 8080 }}
             path: {{ index .Values "microservice-chart" "ingress" "path" }}
