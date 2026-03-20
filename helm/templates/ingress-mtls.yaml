@@ -1,0 +1,28 @@
+{{- define "mtls-ingress-host" -}}
+{{- index .Values "microservice-chart" "ingress" "host" | replace "hub" "hub-mtls" }}
+{{- end }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: p4pa-mocks-mtls
+  namespace: {{ index .Values "microservice-chart" "namespace" }}
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: {{ index .Values "microservice-chart" "ingress" "rewriteTarget" }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ include "mtls-ingress-host" . }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: p4pa-mocks-microservice-chart
+                port:
+                  number: {{ index .Values "microservice-chart" "ingress" "servicePort" | default 8080 }}
+            path: {{ index .Values "microservice-chart" "ingress" "path" }}
+            pathType: {{ index .Values "microservice-chart" "ingress" "pathType" }}
+  tls:
+    - hosts: [{{ include "mtls-ingress-host" . }}]
+      secretName: {{ include "mtls-ingress-host" . | replace "." "-" }}
