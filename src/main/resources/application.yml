@@ -20,6 +20,11 @@ management:
       web:
         exposure.include: info, health
 
+mtls:
+  fail-if-no-verified: "\${MTLS_FAIL_IF_NO_VERIFIED:true}"
+  # comma separated list of protected paths
+  paths: "/cie,/cie2"
+
 sil:
   notification:
     legacy:
