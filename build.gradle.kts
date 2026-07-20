@@ -115,7 +115,7 @@ tasks.register("dependenciesBuild") {
     "openApiGenerateCIEONLINE",
     "openApiGenerateCIEMockConfiguration",
     "openApiGenerateMyDictionary",
-    //"openApiGenerateP4PAAUTH"
+    "openApiGenerateP4PAAUTH"
   )
 }
 
