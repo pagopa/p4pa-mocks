@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: MyDictionary api
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  "/get.html":
+    get:
+      tags:
+        - MyDictionary
+      operationId: getSpontaneousSchema
+      parameters:
+        - name: codice
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            plain/text:
+              schema:
+                type: string
+        "404":
+          description: NotFound

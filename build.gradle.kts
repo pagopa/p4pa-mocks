@@ -112,9 +112,10 @@ tasks.register("dependenciesBuild") {
     "openApiGenerateAnprApiC003",
     "openApiGenerateSilLegacyActualization",
     "openApiGenerateSilLegacyNotification",
-    "openApiGenerateP4PAAUTH",
     "openApiGenerateCIEONLINE",
-    "openApiGenerateMockConfiguration"
+    "openApiGenerateCIEMockConfiguration",
+    "openApiGenerateMyDictionary",
+    //"openApiGenerateP4PAAUTH"
   )
 }
 
@@ -127,37 +128,6 @@ configure<SourceSetContainer> {
 springBoot {
   buildInfo()
   mainClass.value("it.gov.pagopa.payhub.mocks.MocksApplication")
-}
-
-var targetEnv = when (Objects.requireNonNullElse(System.getProperty("targetBranch"), grgit.branch.current().name)) {
-  "uat" -> "uat"
-  "main" -> "main"
-  else -> "develop"
-}
-
-tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateP4PAAUTH") {
-  group = "openapi"
-  description = "description"
-
-  generatorName.set("java")
-  remoteInputSpec.set("https://raw.githubusercontent.com/pagopa/p4pa-doc/refs/heads/main/openapi/$targetEnv/internal/p4pa-auth.openapi.yaml")
-  outputDir.set("$projectDir/build/generated")
-  apiPackage.set("it.gov.pagopa.pu.auth.controller.generated")
-  modelPackage.set("it.gov.pagopa.pu.auth.dto.generated")
-  configOptions.set(mapOf(
-    "swaggerAnnotations" to "false",
-    "openApiNullable" to "false",
-    "dateLibrary" to "java8",
-    "useSpringBoot3" to "true",
-    "useJakartaEe" to "true",
-    "serializationLibrary" to "jackson",
-    "generateSupportingFiles" to "true",
-    "generateConstructorWithAllArgs" to "true",
-    "generatedConstructorWithRequiredArgs" to "true",
-    "enumPropertyNaming" to "original",
-    "additionalModelTypeAnnotations" to "@lombok.experimental.SuperBuilder(toBuilder = true)"
-  ))
-  library.set("resttemplate")
 }
 
 tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateAnprApiC030") {
@@ -266,15 +236,15 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("ope
   modelNamePrefix.set("Cie")
 }
 
-tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateMockConfiguration") {
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateCIEMockConfiguration") {
   group = "openapi"
   description = "description"
 
   generatorName.set("spring")
-  inputSpec.set("$rootDir/openapi/mock-configuration/mock-configuration.openapi.yaml")
+  inputSpec.set("$rootDir/openapi/cie/mock-configuration.openapi.yaml")
   outputDir.set("$projectDir/build/generated")
-  apiPackage.set("it.gov.pagopa.payhub.mockconfiguration.controller.generated")
-  modelPackage.set("it.gov.pagopa.payhub.mockconfiguration.model.generated")
+  apiPackage.set("it.gov.pagopa.payhub.cie.mockconfiguration.controller.generated")
+  modelPackage.set("it.gov.pagopa.payhub.cie.mockconfiguration.model.generated")
   configOptions.set(mapOf(
     "dateLibrary" to "java8",
     "requestMappingMode" to "api_interface",
@@ -285,4 +255,56 @@ tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("ope
     "generatedConstructorWithRequiredArgs" to "false",
     "additionalModelTypeAnnotations" to "@lombok.Data @lombok.Builder @lombok.AllArgsConstructor"
   ))
+}
+
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateMyDictionary") {
+  group = "openapi"
+  description = "description"
+
+  generatorName.set("spring")
+  inputSpec.set("$rootDir/openapi/mypay/mydictionary/mydictionary.openapi.yaml")
+  outputDir.set("$projectDir/build/generated")
+  apiPackage.set("it.gov.pagopa.payhub.mypay.mydictionary.controller.generated")
+  modelPackage.set("it.gov.pagopa.payhub.mypay.mydictionary.model.generated")
+  configOptions.set(mapOf(
+    "dateLibrary" to "java8",
+    "requestMappingMode" to "api_interface",
+    "useSpringBoot3" to "true",
+    "interfaceOnly" to "true",
+    "useTags" to "true",
+    "generateConstructorWithAllArgs" to "false",
+    "generatedConstructorWithRequiredArgs" to "false",
+    "additionalModelTypeAnnotations" to "@lombok.Data @lombok.Builder @lombok.AllArgsConstructor"
+  ))
+}
+
+var targetEnv = when (Objects.requireNonNullElse(System.getProperty("targetBranch"), grgit.branch.current().name)) {
+  "uat" -> "uat"
+  "main" -> "main"
+  else -> "develop"
+}
+
+tasks.register<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerateP4PAAUTH") {
+  group = "openapi"
+  description = "description"
+
+  generatorName.set("java")
+  remoteInputSpec.set("https://raw.githubusercontent.com/pagopa/p4pa-doc/refs/heads/main/openapi/$targetEnv/internal/p4pa-auth.openapi.yaml")
+  outputDir.set("$projectDir/build/generated")
+  apiPackage.set("it.gov.pagopa.pu.auth.controller.generated")
+  modelPackage.set("it.gov.pagopa.pu.auth.dto.generated")
+  configOptions.set(mapOf(
+    "swaggerAnnotations" to "false",
+    "openApiNullable" to "false",
+    "dateLibrary" to "java8",
+    "useSpringBoot3" to "true",
+    "useJakartaEe" to "true",
+    "serializationLibrary" to "jackson",
+    "generateSupportingFiles" to "true",
+    "generateConstructorWithAllArgs" to "true",
+    "generatedConstructorWithRequiredArgs" to "true",
+    "enumPropertyNaming" to "original",
+    "additionalModelTypeAnnotations" to "@lombok.experimental.SuperBuilder(toBuilder = true)"
+  ))
+  library.set("resttemplate")
 }
