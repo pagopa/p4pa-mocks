@@ -1,6 +1,6 @@
-package it.gov.pagopa.payhub.mocks.controller;
+package it.gov.pagopa.payhub.mocks.cie.controller;
 
-import it.gov.pagopa.payhub.mockconfiguration.controller.generated.CieMockConfigurationApi;
+import it.gov.pagopa.payhub.cie.mockconfiguration.controller.generated.CieMockConfigurationApi;
 import it.gov.pagopa.payhub.mocks.cie.service.CiePaymentsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

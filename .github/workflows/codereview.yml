@@ -1,4 +1,4 @@
-name: P4PA-MOCKS - Code Review
+name: p4pa-mocks - Code Review
 
 on:
   push:
