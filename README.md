@@ -4,9 +4,6 @@ This repository contains the mock implementations of the services required for t
 
 ## Mocks
 
-### Mock Configuration
-* [mock-configuration.openapi.yaml](openapi/mock-configuration/mock-configuration.openapi.yaml)
-
 ### ANPR
 * [anprApiC003.openapi.yaml](openapi/anpr/anprApiC003.openapi.yaml)
 * [anprApiC030.openapi.yaml](openapi/anpr/anprApiC030.openapi.yaml)
@@ -42,10 +39,17 @@ This repository contains the mock implementations of the services required for t
     * It **dynamically includes** the "Comune di Test" (TS - `11111111111`) based on the configuration set via the `includeCieTestOrganization` API.
 
 ####  CIE Mock Configuration
+* [mock-configuration.openapi.yaml](openapi/cie/mock-configuration.openapi.yaml)
   * `includeCieTestOrganization`
     * This API allows for dynamic configuration of the list returned by `getIssuerFC`.
     * It enables or disables the inclusion of the "Comune di Test" (CF: `11111111111`) at runtime.
-   
+
+### MyPay
+* [my-dictionary.openapi.yaml](openapi/my-pay/my-dictionary.openapi.yaml)
+  * `getSpontaneousSchema`
+    * It will search for a json file at the classpath path `mocks/mydictionary` having name `<codice>.json` where `<codice>` is the configured query parameter.
+    * In order to configure new mocked files, add them to the `src/main/resources/mocks/mydictionary` directory.
+
 ## 📂 Repository Structure
 
 Here is a quick overview of the files and directories included in this repository:
