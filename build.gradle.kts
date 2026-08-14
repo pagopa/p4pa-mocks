@@ -39,7 +39,7 @@ val jwksRsaVersion = "0.22.2"
 val nimbusJoseJwtVersion = "10.3"
 val jjwtVersion = "0.12.6"
 val javaFakerVersion = "1.0.2"
-val httpClientVersion = "5.5"
+val httpClientVersion = "5.6.3"
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter")
